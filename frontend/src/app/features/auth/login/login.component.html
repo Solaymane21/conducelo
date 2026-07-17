@@ -1,0 +1,74 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <!-- Branding -->
+    <div class="auth-header">
+      <span class="brand-emoji">🚗</span>
+      <h1 class="brand-name">Conducelo</h1>
+      <p class="brand-tagline">Sign in to your account</p>
+    </div>
+
+    <!-- Error message -->
+    <div class="error-banner" *ngIf="errorMessage">
+      <i class="pi pi-exclamation-circle"></i>
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <!-- Login form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <!-- Username -->
+      <div class="field">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          pInputText
+          formControlName="username"
+          placeholder="Enter your username"
+          [class.ng-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+        />
+        <small
+          class="field-error"
+          *ngIf="loginForm.get('username')?.hasError('required') && loginForm.get('username')?.touched"
+        >
+          Username is required.
+        </small>
+      </div>
+
+      <!-- Password -->
+      <div class="field">
+        <label for="password">Password</label>
+        <p-password
+          id="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          [toggleMask]="true"
+          [feedback]="false"
+          styleClass="password-field"
+          inputStyleClass="password-input"
+        ></p-password>
+        <small
+          class="field-error"
+          *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched"
+        >
+          Password is required.
+        </small>
+      </div>
+
+      <!-- Submit button -->
+      <p-button
+        type="submit"
+        label="Sign In"
+        icon="pi pi-sign-in"
+        styleClass="submit-btn"
+        [loading]="isLoading"
+        [disabled]="isLoading"
+      ></p-button>
+    </form>
+
+    <!-- Register link -->
+    <div class="auth-footer">
+      <span>Don't have an account?</span>
+      <a routerLink="/register" class="auth-link">Create one</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+.home-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  padding: 1rem;
+}
+
+.home-card {
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+
+.home-emoji {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.home-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.home-subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.home-description {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0.75rem 0 2rem 0;
+}
+
+:host ::ng-deep .logout-btn {
+  min-width: 140px;
+}

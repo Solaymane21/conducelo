@@ -1,0 +1,19 @@
+<div class="home-wrapper">
+  <div class="home-card">
+    <span class="home-emoji">🚗</span>
+    <h1 class="home-title">Welcome to Conducelo</h1>
+    <p class="home-subtitle" *ngIf="username">
+      Signed in as <strong>{{ username }}</strong>
+    </p>
+    <p class="home-description">
+      Your peer-to-peer car rental platform. More features coming soon!
+    </p>
+    <p-button
+      label="Sign Out"
+      icon="pi pi-sign-out"
+      severity="secondary"
+      (onClick)="onLogout()"
+      styleClass="logout-btn"
+    ></p-button>
+  </div>
+</div>
