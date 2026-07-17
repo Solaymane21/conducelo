@@ -304,6 +304,8 @@ src/main/java/com/example/demo/
 | Validación | `@Valid` + Bean Validation | Validación declarativa estándar |
 | Excepciones | `@ControllerAdvice` global | Respuestas de error consistentes en JSON |
 | Base de datos | PostgreSQL | Relacional, robusta, la más usada en empresas europeas |
+| Idioma del código | Inglés (English) | Todo el desarrollo (código, BD, comentarios, variables) debe estar en inglés para el mercado suizo |
+| Internacionalización (i18n) | @ngx-translate (Angular) | Soporte multi-idioma para Inglés (en), Español (es), Alemán (de) y Francés (fr) |
 
 ---
 
