@@ -1,0 +1,28 @@
+# IDEs and OS
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+
+# Backend
+backend/target/
+backend/.mvn/
+backend/*.jar
+backend/.classpath
+backend/.project
+backend/.settings/
+
+# Frontend
+frontend/dist/
+frontend/node_modules/
+frontend/.angular/
+frontend/.cache/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnp*
+frontend/.pnp.js

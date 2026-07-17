@@ -1,0 +1,66 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: lts-postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: demodb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d demodb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lts-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lts-springboot-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/demodb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgrespassword
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - lts-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lts-angular-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - lts-network
+
+  adminer:
+    image: adminer
+    container_name: lts-adminer
+    ports:
+      - "8082:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - lts-network
+
+volumes:
+  postgres_data:
+
+networks:
+  lts-network:
+    driver: bridge

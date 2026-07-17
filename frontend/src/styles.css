@@ -1,0 +1,62 @@
+/* Global Stylesheet - Minimalist Light Theme */
+@import "primeicons/primeicons.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+:root {
+  --bg-primary: #f3f4f6;          /* Light grey background */
+  --bg-secondary: #ffffff;        /* White card background */
+  
+  --text-primary: #111827;        /* Almost black text */
+  --text-secondary: #4b5563;      /* Dark grey text */
+  --text-muted: #9ca3af;          /* Light grey text */
+  
+  --color-primary: #2563eb;       /* Royal Blue */
+  --color-primary-hover: #1d4ed8;
+  --color-success: #10b981;       /* Emerald */
+  --color-danger: #ef4444;        /* Red */
+  
+  --transition-smooth: all 0.2s ease-in-out;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* Custom transitions and states for PrimeNG styling */
+.p-button {
+  transition: var(--transition-smooth) !important;
+}
+
+.p-inputtext, .p-inputnumber-input {
+  transition: var(--transition-smooth) !important;
+  font-size: 0.9rem !important;
+  padding: 0.65rem 0.85rem !important;
+}
+
+.p-inputtext:focus, .p-inputnumber-input:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15) !important;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
