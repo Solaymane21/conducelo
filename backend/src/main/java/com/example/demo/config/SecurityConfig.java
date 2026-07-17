@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Spring Security configuration with JWT-based stateless authentication.
+ * spring security configuration with jwt-based stateless authentication.
  */
 @Configuration
 @EnableWebSecurity
@@ -47,6 +47,8 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/cars/my-cars").authenticated()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/cars", "/api/cars/*").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
                         .anyRequest().authenticated()
                 )

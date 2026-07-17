@@ -1,0 +1,94 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <!-- back button link -->
+  <a routerLink="/" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600 transition mb-6 no-underline font-semibold">
+    <i class="pi pi-arrow-left"></i>
+    <span>Back to Listings</span>
+  </a>
+
+  <!-- loading state -->
+  <div class="flex flex-col items-center justify-center py-16 text-gray-400" *ngIf="isLoading">
+    <i class="pi pi-spin pi-spinner text-4xl text-blue-600 mb-3"></i>
+    <p class="text-sm">Loading car details...</p>
+  </div>
+
+  <!-- error state -->
+  <div class="bg-red-50 border border-red-100 text-red-700 rounded-2xl p-6 text-center max-w-xl mx-auto my-12" *ngIf="errorMessage">
+    <i class="pi pi-exclamation-triangle text-3xl mb-2"></i>
+    <p class="font-semibold mb-3">{{ errorMessage }}</p>
+  </div>
+
+  <!-- car details content -->
+  <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden" *ngIf="!isLoading && car">
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      <!-- left column: image/visual -->
+      <div class="bg-gray-100 p-8 flex items-center justify-center text-gray-300 text-9xl min-h-[300px] select-none md:border-r md:border-gray-100">
+        🚗
+      </div>
+
+      <!-- right column: information details -->
+      <div class="p-8 flex flex-col justify-between">
+        <div>
+          <!-- brand & model -->
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
+            <h1 class="text-3xl font-extrabold text-gray-900 leading-tight">
+              {{ car.brand }} {{ car.model }}
+            </h1>
+            <span class="text-xs bg-gray-100 text-gray-700 font-semibold px-2.5 py-1 rounded">
+              {{ car.year }}
+            </span>
+          </div>
+
+          <!-- location -->
+          <div class="flex items-center gap-1.5 text-sm text-gray-500 mb-6">
+            <i class="pi pi-map-marker text-blue-500"></i>
+            <span>{{ car.location }}</span>
+          </div>
+
+          <!-- detailed specs grid -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="border border-gray-100 rounded-xl p-3 bg-gray-50/50">
+              <span class="text-xs text-gray-400 block font-medium">Color</span>
+              <span class="text-sm font-semibold text-gray-800">{{ car.color }}</span>
+            </div>
+            <div class="border border-gray-100 rounded-xl p-3 bg-gray-50/50">
+              <span class="text-xs text-gray-400 block font-medium">Daily Rate</span>
+              <span class="text-sm font-semibold text-gray-800">€{{ car.pricePerDay }} / day</span>
+            </div>
+          </div>
+
+          <!-- description -->
+          <div class="mb-6">
+            <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider mb-2">Description</h3>
+            <p class="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
+              {{ car.description || 'No description provided for this vehicle.' }}
+            </p>
+          </div>
+
+          <!-- owner info -->
+          <div class="border-t border-gray-100 pt-6">
+            <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider mb-3">Listed by</h3>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm">
+                {{ car.ownerUsername.charAt(0).toUpperCase() }}
+              </div>
+              <div>
+                <p class="text-sm font-bold text-gray-800 leading-none mb-1">{{ car.ownerUsername }}</p>
+                <p class="text-xs text-gray-500 leading-none">{{ car.ownerEmail }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- action button -->
+        <div class="mt-8 pt-6 border-t border-gray-100">
+          <p-button
+            label="Rent This Car (Coming Soon)"
+            icon="pi pi-calendar"
+            styleClass="w-full py-3"
+            [disabled]="true"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

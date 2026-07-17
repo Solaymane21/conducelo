@@ -62,9 +62,9 @@ Permite a cualquier persona alquilar su coche cuando no lo usa y a otros encontr
 
 ### MVP (Fase 1-4)
 - [x] Proyecto base con Docker Compose (Angular + Spring Boot + PostgreSQL)
-- [ ] Autenticación y autorización (JWT + Spring Security)
-- [ ] Registro e inicio de sesión
-- [ ] CRUD de coches con validaciones
+- [x] Autenticación y autorización (JWT + Spring Security)
+- [x] Registro e inicio de sesión
+- [x] CRUD de coches con validaciones
 - [ ] Perfil de usuario público
 - [ ] Búsqueda con filtros (marca, precio, fechas, ubicación)
 - [ ] Sistema de reservas con calendario de disponibilidad
@@ -311,9 +311,9 @@ src/main/java/com/example/demo/
 
 ## 🔄 Estado Actual
 
-- **Fase completada:** Proyecto base con Docker Compose (Angular + Spring Boot + PostgreSQL + Adminer)
-- **Siguiente paso:** FASE 1 — Cimientos y Seguridad
-- **Código actual:** CRUD básico de coches sin autenticación ni capas de servicio. Será reestructurado en la Fase 1.
+- **Fase completada:** FASE 1 — Cimientos y Seguridad, FASE 2 — Modelo de Datos y CRUD de Coches.
+- **Siguiente paso:** FASE 3 — Subida de Imágenes y Perfil de Usuario.
+- **Código actual:** Autenticación JWT y operaciones CRUD completas sobre vehículos siguiendo la arquitectura de capas con JPA/PostgreSQL.
 
 ---
 

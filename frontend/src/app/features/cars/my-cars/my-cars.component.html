@@ -1,0 +1,222 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- header section -->
+  <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+    <div>
+      <h1 class="text-3xl font-extrabold text-gray-900 leading-tight">My Car Listings</h1>
+      <p class="text-sm text-gray-500">Manage and publish vehicles you want to list for rent.</p>
+    </div>
+    <button 
+      pButton 
+      label="List New Car" 
+      icon="pi pi-plus" 
+      class="p-button-primary px-5 py-2.5 rounded-xl text-sm"
+      (click)="openNew()">
+    </button>
+  </div>
+
+  <!-- error alert -->
+  <div class="bg-red-50 border border-red-100 text-red-700 rounded-2xl p-4 text-center mb-6" *ngIf="errorMessage">
+    <p class="font-semibold">{{ errorMessage }}</p>
+  </div>
+
+  <!-- listings list or table -->
+  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden p-6">
+    <!-- loading indicator -->
+    <div class="flex flex-col items-center justify-center py-12 text-gray-400" *ngIf="isLoading">
+      <i class="pi pi-spin pi-spinner text-3xl text-blue-600 mb-2"></i>
+      <p class="text-sm">Loading listings...</p>
+    </div>
+
+    <!-- cars table -->
+    <p-table 
+      *ngIf="!isLoading" 
+      [value]="cars" 
+      [rows]="5" 
+      [paginator]="true" 
+      responsiveLayout="scroll"
+      styleClass="p-datatable-striped p-datatable-gridlines custom-p-table">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Vehicle</th>
+          <th style="width: 100px">Year</th>
+          <th style="width: 120px">Color</th>
+          <th>Location</th>
+          <th style="width: 140px">Price/Day</th>
+          <th style="width: 140px; text-align: center">Actions</th>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="body" let-car>
+        <tr>
+          <td>
+            <div class="font-bold text-gray-900">{{ car.brand }} {{ car.model }}</div>
+          </td>
+          <td>{{ car.year }}</td>
+          <td>{{ car.color }}</td>
+          <td>{{ car.location }}</td>
+          <td class="font-extrabold text-blue-600">€{{ car.pricePerDay }}</td>
+          <td>
+            <div class="flex justify-center gap-2">
+              <button 
+                pButton 
+                icon="pi pi-pencil" 
+                class="p-button-rounded p-button-text p-button-secondary p-button-sm"
+                (click)="editCar(car)"
+                title="Edit">
+              </button>
+              <button 
+                pButton 
+                icon="pi pi-trash" 
+                class="p-button-rounded p-button-text p-button-danger p-button-sm"
+                (click)="deleteCar(car)"
+                title="Delete">
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <!-- empty state inside table -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="text-center p-8 text-gray-400">
+            You haven't listed any cars yet. Click "List New Car" to get started!
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- dialog popup form for add/edit -->
+  <p-dialog 
+    [(visible)]="carDialog" 
+    [style]="{ width: '450px' }" 
+    [header]="selectedCarId ? 'Edit Car Details' : 'List New Vehicle'" 
+    [modal]="true" 
+    styleClass="p-fluid custom-dialog"
+    (onHide)="hideDialog()">
+    
+    <ng-template pTemplate="content">
+      <form [formGroup]="carForm" class="flex flex-col gap-4 py-2">
+        <!-- brand -->
+        <div class="flex flex-col gap-1.5">
+          <label for="brand" class="text-sm font-semibold text-gray-700">Brand</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="brand" 
+            formControlName="brand" 
+            placeholder="e.g. Toyota"
+            [class.ng-invalid]="submitted && carForm.get('brand')?.invalid"
+          />
+          <small class="text-red-500 text-xs" *ngIf="submitted && carForm.get('brand')?.invalid">Brand is required.</small>
+        </div>
+
+        <!-- model -->
+        <div class="flex flex-col gap-1.5">
+          <label for="model" class="text-sm font-semibold text-gray-700">Model</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="model" 
+            formControlName="model" 
+            placeholder="e.g. Corolla"
+            [class.ng-invalid]="submitted && carForm.get('model')?.invalid"
+          />
+          <small class="text-red-500 text-xs" *ngIf="submitted && carForm.get('model')?.invalid">Model is required.</small>
+        </div>
+
+        <!-- split row: year & color -->
+        <div class="flex gap-4">
+          <!-- year -->
+          <div class="flex flex-col gap-1.5 flex-1">
+            <label for="year" class="text-sm font-semibold text-gray-700">Year</label>
+            <p-inputNumber 
+              id="year" 
+              formControlName="year"
+              [useGrouping]="false"
+              [min]="1886"
+              [class.ng-invalid]="submitted && carForm.get('year')?.invalid"
+            ></p-inputNumber>
+            <small class="text-red-500 text-xs" *ngIf="submitted && carForm.get('year')?.invalid">Valid year is required.</small>
+          </div>
+
+          <!-- color -->
+          <div class="flex flex-col gap-1.5 flex-1">
+            <label for="color" class="text-sm font-semibold text-gray-700">Color</label>
+            <input 
+              type="text" 
+              pInputText 
+              id="color" 
+              formControlName="color" 
+              placeholder="e.g. Red"
+              [class.ng-invalid]="submitted && carForm.get('color')?.invalid"
+            />
+            <small class="text-red-500 text-xs" *ngIf="submitted && carForm.get('color')?.invalid">Color is required.</small>
+          </div>
+        </div>
+
+        <!-- price per day -->
+        <div class="flex flex-col gap-1.5">
+          <label for="pricePerDay" class="text-sm font-semibold text-gray-700">Price per Day (€)</label>
+          <p-inputNumber 
+            id="pricePerDay" 
+            formControlName="pricePerDay"
+            mode="currency"
+            currency="EUR"
+            locale="es-ES"
+            [min]="1"
+            [class.ng-invalid]="submitted && carForm.get('pricePerDay')?.invalid"
+          ></p-inputNumber>
+          <small class="text-red-500 text-xs" *ngIf="submitted && carForm.get('pricePerDay')?.invalid">Price per day must be positive.</small>
+        </div>
+
+        <!-- location -->
+        <div class="flex flex-col gap-1.5">
+          <label for="location" class="text-sm font-semibold text-gray-700">Location</label>
+          <input 
+            type="text" 
+            pInputText 
+            id="location" 
+            formControlName="location" 
+            placeholder="e.g. Madrid"
+            [class.ng-invalid]="submitted && carForm.get('location')?.invalid"
+          />
+          <small class="text-red-500 text-xs" *ngIf="submitted && carForm.get('location')?.invalid">Location is required.</small>
+        </div>
+
+        <!-- description -->
+        <div class="flex flex-col gap-1.5">
+          <label for="description" class="text-sm font-semibold text-gray-700">Description</label>
+          <textarea 
+            id="description" 
+            pInputText 
+            formControlName="description" 
+            rows="3" 
+            placeholder="Describe your vehicle..."
+            class="border border-gray-200 rounded-lg p-2.5 text-sm"
+          ></textarea>
+        </div>
+      </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <div class="flex justify-end gap-2 border-t border-gray-100 pt-3">
+        <button 
+          pButton 
+          label="Cancel" 
+          icon="pi pi-times" 
+          class="p-button-text p-button-secondary py-2"
+          (click)="hideDialog()">
+        </button>
+        <button 
+          pButton 
+          label="Save Listing" 
+          icon="pi pi-check" 
+          class="py-2 px-4"
+          (click)="saveCar()">
+        </button>
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>

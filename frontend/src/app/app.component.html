@@ -1,1 +1,26 @@
-<router-outlet></router-outlet>
+<div class="min-h-screen bg-gray-50 flex flex-col">
+  <!-- header navigation -->
+  <header class="bg-white border-b border-gray-100 shadow-sm" *ngIf="isAuthenticated$ | async">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-8">
+        <a routerLink="/" class="flex items-center gap-2 text-xl font-bold text-gray-900 no-underline">
+          <span>🚗</span>
+          <span>Conducelo</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6">
+          <a routerLink="/" routerLinkActive="text-blue-600 font-semibold" [routerLinkActiveOptions]="{exact: true}" class="text-sm text-gray-600 hover:text-blue-600 no-underline transition">Browse Cars</a>
+          <a routerLink="/my-cars" routerLinkActive="text-blue-600 font-semibold" class="text-sm text-gray-600 hover:text-blue-600 no-underline transition">My Listings</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-4" *ngIf="currentUser$ | async as user">
+        <span class="text-xs bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full font-semibold">User: {{ user.sub || user.username }}</span>
+        <button pButton icon="pi pi-sign-out" class="p-button-rounded p-button-text p-button-secondary p-button-sm" (click)="logout()" title="Sign Out"></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- main content area -->
+  <main class="flex-grow">
+    <router-outlet></router-outlet>
+  </main>
+</div>
